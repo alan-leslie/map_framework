@@ -3,6 +3,7 @@ plugins {
     id 'kotlin-android'
     id 'kotlin-android-extensions'
     id 'androidx.navigation.safeargs.kotlin'
+    id 'kotlin-kapt'
     // secrets-gradle-plugin for maps key
     id 'com.google.android.libraries.mapsplatform.secrets-gradle-plugin'
 }
@@ -51,8 +52,18 @@ dependencies {
     // Lifecycle Runtime KTX Library
     implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.3.1'
 
+    implementation 'com.google.android.material:material:1.4.0'
     implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
     implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
+
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1"
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.0'
+
+    implementation "androidx.room:room-runtime:$room_version"
+    kapt "androidx.room:room-compiler:$room_version"
+
+    // optional - Kotlin Extensions and Coroutines support for Room
+    implementation "androidx.room:room-ktx:$room_version"
 }
 
 secrets {
