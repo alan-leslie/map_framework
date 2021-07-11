@@ -10,16 +10,15 @@ import androidx.room.RoomDatabase
     version = 1,
     exportSchema = false
 )
-abstract class RepoDatabase : RoomDatabase() {
+abstract class PlaceDatabase : RoomDatabase() {
 
     abstract fun reposDao(): PlaceDao
 
     companion object {
-
         @Volatile
-        private var INSTANCE: RepoDatabase? = null
+        private var INSTANCE: PlaceDatabase? = null
 
-        fun getInstance(context: Context): RepoDatabase =
+        fun getInstance(context: Context): PlaceDatabase =
             INSTANCE ?: synchronized(this) {
                 INSTANCE
                     ?: buildDatabase(context).also { INSTANCE = it }
@@ -27,7 +26,7 @@ abstract class RepoDatabase : RoomDatabase() {
 
         private fun buildDatabase(context: Context) =
             Room.databaseBuilder(context.applicationContext,
-                RepoDatabase::class.java, "places.db")
+                PlaceDatabase::class.java, "places.db")
                 .build()
     }
 }
