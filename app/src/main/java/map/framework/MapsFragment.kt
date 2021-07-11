@@ -43,7 +43,7 @@ class MapsFragment : Fragment() {
             // Ensure all places are visible in the map
             val bounds = LatLngBounds.builder()
             places.forEach { bounds.include(it.latLng) }
-            googleMap.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds.build(), 20))
+            googleMap.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds.build(), 100))
         }
     }
 }
