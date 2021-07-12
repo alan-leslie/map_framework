@@ -1,4 +1,4 @@
-package map.framework.database
+package map.framework.database.place
 
 import androidx.annotation.NonNull
 import androidx.room.ColumnInfo
@@ -10,7 +10,8 @@ import androidx.room.PrimaryKey
  * Each property corresponds to a column. Additionally, an ID is needed as a unique identifier for
  * each row in the database.
  */
-@Entity
+
+@Entity(tableName = "place_table")
 data class PlaceData(
     @PrimaryKey @NonNull @ColumnInfo(name = "name") val name: String,
     @NonNull @ColumnInfo(name = "latitude") val latitude: Float,

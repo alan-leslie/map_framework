@@ -4,29 +4,77 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.sqlite.db.SupportSQLiteDatabase
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import map.framework.database.place.PlaceDao
+import map.framework.database.place.PlaceData
 
-@Database(
-    entities = [PlaceData::class],
-    version = 1,
-    exportSchema = false
-)
-abstract class PlaceDatabase : RoomDatabase() {
+@Database(entities = [PlaceData::class], version = 1, exportSchema = false)
+abstract class PlaceRoomDatabase : RoomDatabase() {
 
-    abstract fun reposDao(): PlaceDao
+    abstract fun placeDao(): PlaceDao
 
     companion object {
         @Volatile
-        private var INSTANCE: PlaceDatabase? = null
+        private var INSTANCE: PlaceRoomDatabase? = null
 
-        fun getInstance(context: Context): PlaceDatabase =
-            INSTANCE ?: synchronized(this) {
-                INSTANCE
-                    ?: buildDatabase(context).also { INSTANCE = it }
+        fun getDatabase(
+            context: Context,
+            scope: CoroutineScope
+        ): PlaceRoomDatabase {
+            // if the INSTANCE is not null, then return it,
+            // if it is, then create the database
+            return INSTANCE ?: synchronized(this) {
+                val instance = Room.databaseBuilder(
+                    context.applicationContext,
+                    PlaceRoomDatabase::class.java,
+                    "word_database"
+                )
+                    // Wipes and rebuilds instead of migrating if no Migration object.
+                    // Migration is not part of this codelab.
+                    .fallbackToDestructiveMigration()
+                    .addCallback(WordDatabaseCallback(scope))
+                    .build()
+                INSTANCE = instance
+                // return instance
+                instance
             }
+        }
 
-        private fun buildDatabase(context: Context) =
-            Room.databaseBuilder(context.applicationContext,
-                PlaceDatabase::class.java, "places.db")
-                .build()
+        private class WordDatabaseCallback(
+            private val scope: CoroutineScope
+        ) : RoomDatabase.Callback() {
+            /**
+             * Override the onCreate method to populate the database.
+             */
+            override fun onCreate(db: SupportSQLiteDatabase) {
+                super.onCreate(db)
+                // If you want to keep the data through app restarts,
+                // comment out the following line.
+                INSTANCE?.let { database ->
+                    scope.launch(Dispatchers.IO) {
+                        populateDatabase(database.placeDao())
+                    }
+                }
+            }
+        }
+
+        /**
+         * Populate the database in a new coroutine.
+         * If you want to start with more words, just add them.
+         */
+        suspend fun populateDatabase(wordDao: PlaceDao) {
+            // Start the app with a clean database every time.
+            // Not needed if you only populate on creation.
+            wordDao.deleteAll()
+            val lat : Float = 1.1F
+
+            var place = PlaceData("Hello", lat, lat, "add", lat)
+            wordDao.insert(place)
+            place = PlaceData("World!", lat, lat, "add", lat)
+            wordDao.insert(place)
+        }
     }
 }

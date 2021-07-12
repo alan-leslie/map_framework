@@ -15,13 +15,20 @@
 package map.framework
 
 import android.os.Bundle
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupActionBarWithNavController
+import map.framework.viewmodel.PlaceViewModel
+import map.framework.viewmodel.PlaceViewModelFactory
 
 class MainActivity : AppCompatActivity() {
     private lateinit var navController: NavController
+
+    private val wordViewModel: PlaceViewModel by viewModels {
+        PlaceViewModelFactory((application as MapApplication).repository)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

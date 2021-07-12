@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.SupportMapFragment
@@ -13,10 +14,17 @@ import com.google.maps.android.ktx.awaitMap
 import com.google.maps.android.ktx.awaitMapLoad
 import map.framework.place.Place
 import map.framework.place.PlacesReader
+import map.framework.viewmodel.PlaceViewModel
+import map.framework.viewmodel.PlaceViewModelFactory
+
 
 class MapsFragment : Fragment() {
     private val places: List<Place> by lazy {
         PlacesReader(this.requireContext()).read()
+    }
+
+    private val placeViewModel: PlaceViewModel by activityViewModels {
+        PlaceViewModelFactory((activity?.application as MapApplication).repository)
     }
 
     override fun onCreateView(
