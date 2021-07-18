@@ -65,16 +65,14 @@ abstract class PlaceRoomDatabase : RoomDatabase() {
          * Populate the database in a new coroutine.
          * If you want to start with more words, just add them.
          */
-        suspend fun populateDatabase(wordDao: PlaceDao) {
+        suspend fun populateDatabase(placeDao: PlaceDao) {
             // Start the app with a clean database every time.
             // Not needed if you only populate on creation.
-            wordDao.deleteAll()
-            val lat : Float = 1.1F
-
-            var place = PlaceData("Hello", lat, lat, "add", lat)
-            wordDao.insert(place)
-            place = PlaceData("World!", lat, lat, "add", lat)
-            wordDao.insert(place)
+            placeDao.deleteAll()
+            var place = PlaceData("Abode Bar", 55.966732939986635, -3.1743685852051162, "265 Leith Walk, Edinburgh", 4.4F)
+            placeDao.insert(place)
+            place = PlaceData("Victoria Bar", 55.96623487678024, -3.175574115342492, "add", 4.3F)
+            placeDao.insert(place)
         }
     }
 }

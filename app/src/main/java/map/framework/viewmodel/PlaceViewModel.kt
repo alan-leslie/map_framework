@@ -1,8 +1,12 @@
 package map.framework.viewmodel
 
 import androidx.lifecycle.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import map.framework.database.place.PlaceData
+import map.framework.place.Place
 import map.framework.repository.PlaceRepository
 
 /**
@@ -22,6 +26,17 @@ class PlaceViewModel(private val repository: PlaceRepository) : ViewModel() {
      */
     fun insert(place: PlaceData) = viewModelScope.launch {
         repository.insert(place)
+    }
+
+    private val scope = CoroutineScope(Job() + Dispatchers.IO)
+
+
+    fun allPlaces(): List<Place> {
+        var repo_places : List<Place> = emptyList()
+        scope.launch {
+            repo_places = repository.allPlaces()
+        }
+        return repo_places
     }
 }
 

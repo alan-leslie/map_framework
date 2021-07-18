@@ -15,9 +15,9 @@
 package map.framework.place
 
 import android.content.Context
-import map.framework.R
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import map.framework.R
 import java.io.InputStream
 import java.io.InputStreamReader
 
@@ -37,7 +37,7 @@ class PlacesReader(private val context: Context) {
      * Reads the list of place JSON objects in the file places.json and returns a list of Place
      * objects
      */
-    fun read(): List<Place> {
+    suspend fun read(): List<Place> {
         val itemType = object : TypeToken<List<PlaceResponse>>() {}.type
         val reader = InputStreamReader(inputStream)
         return gson.fromJson<List<PlaceResponse>>(reader, itemType).map {

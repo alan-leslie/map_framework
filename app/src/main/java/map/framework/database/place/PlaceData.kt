@@ -4,6 +4,7 @@ import androidx.annotation.NonNull
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.google.android.gms.maps.model.LatLng
 
 /**
  * Represents a single table in the database. Each row is a separate instance of the Schedule class.
@@ -14,8 +15,11 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "place_table")
 data class PlaceData(
     @PrimaryKey @NonNull @ColumnInfo(name = "name") val name: String,
-    @NonNull @ColumnInfo(name = "latitude") val latitude: Float,
-    @NonNull @ColumnInfo(name = "longitude") val longitude: Float,
+    @NonNull @ColumnInfo(name = "latitude") val latitude: Double,
+    @NonNull @ColumnInfo(name = "longitude") val longitude: Double,
     @NonNull @ColumnInfo(name = "address") val address: String,
     @NonNull @ColumnInfo(name = "rating") val rating: Float
-)
+) {
+    val latLng: LatLng
+        get() = LatLng(latitude, longitude)
+}
