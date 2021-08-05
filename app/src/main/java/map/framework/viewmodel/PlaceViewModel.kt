@@ -1,10 +1,13 @@
 package map.framework.viewmodel
 
+import android.location.Location
+import android.os.Parcel
 import androidx.lifecycle.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import map.framework.api.GPlace
 import map.framework.database.place.PlaceData
 import map.framework.place.Place
 import map.framework.repository.PlaceRepository
@@ -13,6 +16,8 @@ import map.framework.repository.PlaceRepository
  * View Model to keep a reference to the place repository and
  * an up-to-date list of all places.
  */
+
+val parcel: Parcel? = null
 
 class PlaceViewModel(private val repository: PlaceRepository) : ViewModel() {
     // Using LiveData and caching what places returns has several benefits:
@@ -35,6 +40,16 @@ class PlaceViewModel(private val repository: PlaceRepository) : ViewModel() {
         var repo_places : List<Place> = emptyList()
         scope.launch {
             repo_places = repository.allPlaces()
+        }
+        return repo_places
+    }
+
+    // TODO - pass in current location
+    fun nearbyPlaces(): List<GPlace> {
+        val location: Location? = null
+        var repo_places : List<GPlace> = emptyList()
+        scope.launch {
+            repo_places = repository.getNearbyPlaces(location!!)
         }
         return repo_places
     }

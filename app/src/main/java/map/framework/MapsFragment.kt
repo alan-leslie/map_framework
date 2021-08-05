@@ -60,6 +60,11 @@ class MapsFragment : Fragment() {
             // Wait for map to finish loading
             mMap!!.awaitMapLoad()
             Log.d(TAG, "awaitMapLoad")
+
+            placeViewModel.places.value.let {
+                val bounds = getBounds(placeViewModel.places.value!!)
+                mMap!!.animateCamera(CameraUpdateFactory.newLatLngBounds(bounds.build(), 100))
+            }
         }
 
         placeViewModel.places.observe(viewLifecycleOwner, { places ->
