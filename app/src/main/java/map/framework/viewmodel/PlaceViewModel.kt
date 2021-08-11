@@ -2,7 +2,6 @@ package map.framework.viewmodel
 
 import android.location.Location
 import androidx.lifecycle.*
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import map.framework.BuildConfig.GOOGLE_MAPS_API_KEY
 import map.framework.api.GPlace
@@ -37,8 +36,6 @@ class PlaceViewModel(private val repository: PlaceRepository) : ViewModel() {
     fun insert(place: PlaceData) = viewModelScope.launch {
         repository.insert(place)
     }
-
-//    private val scope = CoroutineScope(Job() + Dispatchers.IO)
 
     fun allPlaces(): List<Place> {
         var repo_places : List<Place> = emptyList()
