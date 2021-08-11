@@ -26,7 +26,7 @@ import map.framework.viewmodel.PlaceViewModelFactory
 class MainActivity : AppCompatActivity() {
     private lateinit var navController: NavController
 
-    private val wordViewModel: PlaceViewModel by viewModels {
+    private val placeViewModel: PlaceViewModel by viewModels {
         PlaceViewModelFactory((application as MapApplication).repository)
     }
 
@@ -34,7 +34,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         setContentView(R.layout.activity_main)
-
 
         val navHostFragment = supportFragmentManager
             .findFragmentById(R.id.nav_host_fragment) as NavHostFragment

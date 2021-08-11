@@ -1,10 +1,10 @@
 package map.framework.api
 
-import com.google.gson.annotations.SerializedName
+import com.squareup.moshi.Json
 
 /**
  * Data class encapsulating a response from the nearby search call to the Places API.
  */
 data class NearbyPlacesResponse(
-    @SerializedName("results") val results: List<GPlace>
+    @Json(name = "results") val results: List<GPlace>
 )

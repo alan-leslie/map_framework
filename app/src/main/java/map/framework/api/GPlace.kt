@@ -1,7 +1,7 @@
 package map.framework.api
 
-//import com.google.ar.sceneform.math.Vector3
 import com.google.android.gms.maps.model.LatLng
+import map.framework.place.Place
 
 /**
  * A model describing details about a Place (location, name, type, etc.).
@@ -10,7 +10,9 @@ data class GPlace(
     val place_id: String,
     val icon: String,
     val name: String,
-    val geometry: Geometry
+    val geometry: Geometry,
+    val vicinity: String,
+    val rating: Float
 ) {
     override fun equals(other: Any?): Boolean {
         if (other !is GPlace) {
@@ -35,3 +37,10 @@ data class GeometryLocation(
     val latLng: LatLng
         get() = LatLng(lat, lng)
 }
+
+fun GPlace.toPlace(): Place = Place(
+    name = name,
+    latLng = LatLng(geometry.location.lat, geometry.location.lng),
+    address = vicinity,
+    rating = rating
+)
