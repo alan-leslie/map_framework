@@ -1,6 +1,7 @@
 package map.framework.api
 
 import com.google.android.gms.maps.model.LatLng
+import map.framework.database.place.PlaceData
 import map.framework.place.Place
 
 /**
@@ -41,6 +42,14 @@ data class GeometryLocation(
 fun GPlace.toPlace(): Place = Place(
     name = name,
     latLng = LatLng(geometry.location.lat, geometry.location.lng),
+    address = vicinity,
+    rating = rating
+)
+
+fun GPlace.toPlaceData(): PlaceData = PlaceData(
+    name = name,
+    latitude = geometry.location.lat,
+    longitude = geometry.location.lng,
     address = vicinity,
     rating = rating
 )
