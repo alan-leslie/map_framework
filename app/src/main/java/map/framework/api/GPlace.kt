@@ -12,8 +12,8 @@ data class GPlace(
     val icon: String,
     val name: String,
     val geometry: Geometry,
-    val vicinity: String,
-    val rating: Float
+    val vicinity: String
+//    val rating: Float
 ) {
     override fun equals(other: Any?): Boolean {
         if (other !is GPlace) {
@@ -43,7 +43,7 @@ fun GPlace.toPlace(): Place = Place(
     name = name,
     latLng = LatLng(geometry.location.lat, geometry.location.lng),
     address = vicinity,
-    rating = rating
+    rating = 1.0f
 )
 
 fun GPlace.toPlaceData(): PlaceData = PlaceData(
@@ -51,5 +51,5 @@ fun GPlace.toPlaceData(): PlaceData = PlaceData(
     latitude = geometry.location.lat,
     longitude = geometry.location.lng,
     address = vicinity,
-    rating = rating
+    rating = 1.0f
 )

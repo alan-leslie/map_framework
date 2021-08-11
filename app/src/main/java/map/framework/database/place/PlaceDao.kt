@@ -16,7 +16,7 @@ interface PlaceDao {
     // The flow always holds/caches latest version of data. Notifies its observers when the
     // data has changed.
     @Query("SELECT * FROM place_table ORDER BY name ASC")
-    fun getPlaces(): Flow<List<PlaceData>>
+    suspend fun getPlaces(): List<PlaceData>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insert(place: PlaceData)

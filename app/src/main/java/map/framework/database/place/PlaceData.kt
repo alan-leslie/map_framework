@@ -5,6 +5,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.google.android.gms.maps.model.LatLng
+import map.framework.place.Place
 
 /**
  * Represents a single table in the database. Each row is a separate instance of the Schedule class.
@@ -23,3 +24,10 @@ data class PlaceData(
     val latLng: LatLng
         get() = LatLng(latitude, longitude)
 }
+
+fun PlaceData.toPlace(): Place = Place(
+    name = name,
+    latLng = LatLng(latitude, longitude),
+    address = address,
+    rating = rating
+)

@@ -1,5 +1,7 @@
 package map.framework
 
+import android.location.Location
+import android.location.LocationManager
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -14,7 +16,7 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLngBounds
 import com.google.maps.android.ktx.awaitMap
 import com.google.maps.android.ktx.awaitMapLoad
-import map.framework.database.place.PlaceData
+import map.framework.place.Place
 import map.framework.viewmodel.PlaceViewModel
 import map.framework.viewmodel.PlaceViewModelFactory
 
@@ -30,7 +32,7 @@ class MapsFragment : Fragment() {
         PlaceViewModelFactory((activity?.application as MapApplication).repository)
     }
 
-    private fun getBounds(places :List<PlaceData>) : LatLngBounds.Builder
+    private fun getBounds(places :List<Place>) : LatLngBounds.Builder
     {
         val bounds = LatLngBounds.builder()
         places.forEach { bounds.include(it.latLng) }
@@ -47,6 +49,11 @@ class MapsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+//        placeViewModel.getDBPlaces()
+        val targetLocation = Location(LocationManager.GPS_PROVIDER)
+        targetLocation.latitude = 55.966134
+        targetLocation.longitude = -3.175674
+        placeViewModel.getNearbyPlaces(targetLocation)
 
         val mapFragment =
             childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
