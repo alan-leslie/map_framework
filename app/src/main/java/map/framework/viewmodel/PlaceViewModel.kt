@@ -59,7 +59,7 @@ class PlaceViewModel(private val repository: PlaceRepository) : ViewModel() {
                 val results = PlacesApi.retrofitService.nearbyPlaces(
                     apiKey = apiKey,
                     location = "${location.latitude},${location.longitude}",
-                    radiusInMeters = 1000,
+                    radiusInMeters = 2000,
                     placeType = "bar").results
 
                 val newPlaces: MutableList<Place> = mutableListOf<Place>()
